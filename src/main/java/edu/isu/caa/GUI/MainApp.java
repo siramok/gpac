@@ -10,15 +10,15 @@ import javafx.stage.Stage;
 public class MainApp extends Application {
 
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("view/main.fxml"));
 
         Scene scene = new Scene(root);
         scene.getStylesheets().add(getClass().getClassLoader().getResource("css/styles.css").toExternalForm());
 
-        stage.setTitle("GPA Calculator");
-        stage.setScene(scene);
-        stage.show();
+        primaryStage.setTitle("GPA Calculator");
+        primaryStage.setScene(scene);
+        primaryStage.show();
     }
 
     public static void init(String[] args) {
