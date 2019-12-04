@@ -14,7 +14,7 @@ public class MainApp extends Application {
         Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("view/main.fxml"));
 
         Scene scene = new Scene(root);
-        //scene.getStylesheets().add(getClass().getClassLoader().getResource("css/styles.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getClassLoader().getResource("css/styles.css").toExternalForm());
 
         primaryStage.setTitle("GPA Calculator");
         primaryStage.setScene(scene);
