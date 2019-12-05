@@ -36,7 +36,7 @@ public class GPACalculatorTest {
         grades.add(new Pair("A", 3));
         grades.add(new Pair("A", 3));
         grades.add(new Pair("A", 3));
-        Assert.assertEquals(4.0, fixture.calculate(grades), 0.0001);
+        Assert.assertEquals(4.0, fixture.cumulativeGPA(grades), 0.0001);
     }
 
     @Test
@@ -48,7 +48,7 @@ public class GPACalculatorTest {
         grades.add(new Pair("A", 3));
         grades.add(new Pair("A", 3));
         grades.add(new Pair("A", 3));
-        Assert.assertEquals(3.29, fixture.calculate(grades), 0.0001);
+        Assert.assertEquals(3.29, fixture.cumulativeGPA(grades), 0.0001);
     }
 
     @Test

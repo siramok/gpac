@@ -12,7 +12,7 @@ public class GPACalculator {
     private int currentCredits;
     private Map<String, Double> scale;
 
-    GPACalculator(double currentGPA, int currentCredits) {
+    public GPACalculator(double currentGPA, int currentCredits) {
         this.currentGPA = currentGPA;
         this.currentCredits = currentCredits;
         scale = new HashMap<>();
@@ -39,7 +39,19 @@ public class GPACalculator {
         this.currentCredits = credits;
     }
 
-    public double calculate(List<Pair<String, Integer>> gradeList) {
+    public double semesterGPA(List<Pair<String, Integer>> gradeList) {
+        double newGPA = 0;
+        int newCredits = 0;
+        for(Pair<String, Integer> grade : gradeList) {
+            newGPA += scale.get(grade.getKey()) * grade.getValue();
+            newCredits += grade.getValue();
+        }
+        newGPA /= newCredits;
+
+        return Math.floor(((newGPA * newCredits) / (newCredits)) * 100) / 100;
+    }
+
+    public double cumulativeGPA(List<Pair<String, Integer>> gradeList) {
         double newGPA = 0;
         int newCredits = 0;
         for(Pair<String, Integer> grade : gradeList) {
