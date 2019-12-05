@@ -174,7 +174,7 @@ public class MainController implements Initializable {
             String newValue = e.getNewValue();
             int index = e.getTablePosition().getRow();
             CourseEntry entry = e.getTableView().getItems().get(index);
-            entry.setExpected(newValue);
+            entry.setRetake(newValue);
         });
         OriginalGradeColumn.setCellValueFactory(new PropertyValueFactory<>("Original"));
         OriginalGradeColumn.setCellFactory(ComboBoxTableCell.<CourseEntry, String>forTableColumn("A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D+", "D", "F"));
@@ -200,7 +200,7 @@ public class MainController implements Initializable {
         for(int i = 0; i < 15; i++) {
             String expected = ExpectedGradeColumn.getCellData(i);
             String credits = CreditHoursColumn.getCellData(i);
-            if(expected != null && expected != "" && credits != null && credits != "") {
+            if(expected != null && credits != null) {
                 Pair<String, Integer> data = new Pair(ExpectedGradeColumn.getCellData(i), Integer.parseInt(CreditHoursColumn.getCellData(i)));
                 gradeList.add(data);
             }
