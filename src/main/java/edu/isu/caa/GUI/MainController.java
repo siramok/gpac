@@ -6,16 +6,18 @@ import java.util.ResourceBundle;
 
 import edu.isu.caa.Calculators.GPACalculator;
 import javafx.beans.property.*;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.util.Pair;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import org.javatuples.Pair;
 
 public class MainController implements Initializable {
 
@@ -112,6 +114,12 @@ public class MainController implements Initializable {
     @FXML
     Label ResultsCumulativeGPA;
 
+    @FXML
+    Label ResultsNeededGPA;
+
+    @FXML
+    Label StatusMessage;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         ObservableList<ScaleEntry> scaleList = FXCollections.observableArrayList(
@@ -142,9 +150,40 @@ public class MainController implements Initializable {
                 new CourseEntry(),
                 new CourseEntry(),
                 new CourseEntry(),
-                new CourseEntry(),
                 new CourseEntry()
                 );
+
+        StatusMessage.setText(" ");
+
+        InfoCurrentGPA.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue,
+                                String newValue) {
+                if (!newValue.matches("^(\\d+(\\.\\d{0,2})?|\\.?\\d*)$")) {
+                    InfoCurrentGPA.setText(oldValue);
+                }
+            }
+        });
+
+        InfoCurrentCredits.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue,
+                                String newValue) {
+                if (!newValue.matches("\\d*")) {
+                    InfoCurrentCredits.setText(newValue.replaceAll("[^\\d]", ""));
+                }
+            }
+        });
+
+        InfoDesiredGPA.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue,
+                                String newValue) {
+                if (!newValue.matches("^(\\d+(\\.\\d{0,2})?|\\.?\\d*)$")) {
+                    InfoDesiredGPA.setText(oldValue);
+                }
+            }
+        });
 
         GradeScaleLetterColumn.setCellValueFactory(new PropertyValueFactory<>("Letter"));
         GradeScaleRangeColumn.setCellValueFactory(new PropertyValueFactory<>("Range"));
@@ -153,7 +192,7 @@ public class MainController implements Initializable {
 
         CourseColumn.setCellFactory(TextFieldTableCell.forTableColumn());
         CreditHoursColumn.setCellValueFactory(new PropertyValueFactory<>("Credits"));
-        CreditHoursColumn.setCellFactory(ComboBoxTableCell.<CourseEntry, String>forTableColumn("0", "1", "2", "3", "4", "5"));
+        CreditHoursColumn.setCellFactory(ComboBoxTableCell.<CourseEntry, String>forTableColumn("", "0", "1", "2", "3", "4", "5"));
         CreditHoursColumn.setOnEditCommit( (TableColumn.CellEditEvent<CourseEntry, String> e) -> {
             String newValue = e.getNewValue();
             int index = e.getTablePosition().getRow();
@@ -161,7 +200,7 @@ public class MainController implements Initializable {
             entry.setCredits(newValue);
         });
         ExpectedGradeColumn.setCellValueFactory(new PropertyValueFactory<>("Expected"));
-        ExpectedGradeColumn.setCellFactory(ComboBoxTableCell.<CourseEntry, String>forTableColumn("A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D+", "D", "F"));
+        ExpectedGradeColumn.setCellFactory(ComboBoxTableCell.<CourseEntry, String>forTableColumn("", "A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D+", "D", "F"));
         ExpectedGradeColumn.setOnEditCommit( (TableColumn.CellEditEvent<CourseEntry, String> e) -> {
             String newValue = e.getNewValue();
             int index = e.getTablePosition().getRow();
@@ -169,7 +208,7 @@ public class MainController implements Initializable {
             entry.setExpected(newValue);
         });
         RetakeColumn.setCellValueFactory(new PropertyValueFactory<>("Retake"));
-        RetakeColumn.setCellFactory(ComboBoxTableCell.<CourseEntry, String>forTableColumn("Yes", "No"));
+        RetakeColumn.setCellFactory(ComboBoxTableCell.<CourseEntry, String>forTableColumn("", "Yes", "No"));
         RetakeColumn.setOnEditCommit( (TableColumn.CellEditEvent<CourseEntry, String> e) -> {
             String newValue = e.getNewValue();
             int index = e.getTablePosition().getRow();
@@ -177,7 +216,7 @@ public class MainController implements Initializable {
             entry.setRetake(newValue);
         });
         OriginalGradeColumn.setCellValueFactory(new PropertyValueFactory<>("Original"));
-        OriginalGradeColumn.setCellFactory(ComboBoxTableCell.<CourseEntry, String>forTableColumn("A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D+", "D", "F"));
+        OriginalGradeColumn.setCellFactory(ComboBoxTableCell.<CourseEntry, String>forTableColumn("", "A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D+", "D", "F"));
         OriginalGradeColumn.setOnEditCommit( (TableColumn.CellEditEvent<CourseEntry, String> e) -> {
             String newValue = e.getNewValue();
             int index = e.getTablePosition().getRow();
@@ -192,24 +231,44 @@ public class MainController implements Initializable {
     public void calculateFields(ActionEvent event) {
         event.consume();
 
-        calculator.setCurrentGPA(Double.parseDouble(InfoCurrentGPA.getText()));
-        calculator.setCurrentCredits(Integer.parseInt(InfoCurrentCredits.getText()));
+        if(InfoCurrentGPA.getText().isEmpty()) {
+            StatusMessage.setText(" Error: The Current GPA field cannot be empty.");
+        } else if(InfoCurrentCredits.getText().isEmpty()) {
+            StatusMessage.setText(" Error: The Current Credits field cannot be empty");
+        } else if(InfoDesiredGPA.getText().isEmpty()) {
+            StatusMessage.setText(" Error: The Desired field cannot be empty");
+        } else {
+            calculator.setCurrentGPA(Double.parseDouble(InfoCurrentGPA.getText()));
+            calculator.setCurrentCredits(Integer.parseInt(InfoCurrentCredits.getText()));
 
-        ArrayList<Pair<String, Integer>> gradeList = new ArrayList<>();
+            ArrayList<Pair<String, Integer>> gradeList = new ArrayList<>();
 
-        for(int i = 0; i < 15; i++) {
-            String expected = ExpectedGradeColumn.getCellData(i);
-            String credits = CreditHoursColumn.getCellData(i);
-            if(expected != null && credits != null) {
-                Pair<String, Integer> data = new Pair(ExpectedGradeColumn.getCellData(i), Integer.parseInt(CreditHoursColumn.getCellData(i)));
-                gradeList.add(data);
+            for(int i = 0; i < 15; i++) {
+                String expected = ExpectedGradeColumn.getCellData(i);
+                String credits = CreditHoursColumn.getCellData(i);
+                if(expected != null && expected != "" && credits != null && credits != "") {
+                    Pair<String, Integer> data = new Pair(ExpectedGradeColumn.getCellData(i), Integer.parseInt(CreditHoursColumn.getCellData(i)));
+                    gradeList.add(data);
+                }
+            }
+
+            if(gradeList.size() <= 0) {
+                StatusMessage.setText(" Warning: Nothing to calculate, no courses listed.");
+            } else {
+                ResultsSemesterGPA.setText(String.format("Semester GPA: %s", calculator.semesterGPA(gradeList)));
+                ResultsCumulativeGPA.setText(String.format("Cumulative GPA: %s", calculator.cumulativeGPA(gradeList)));
+
+                int numCredits = 0;
+                for(Pair<String, Integer> grade : gradeList) {
+                    numCredits += grade.getValue1();
+                }
+
+                ResultsNeededGPA.setText(String.format("You would need a GPA of %s this semester to raise your cumulative GPA to %s", calculator.gpaNeededToGet(Double.parseDouble(InfoDesiredGPA.getText()), numCredits), InfoDesiredGPA.getText()));
+
+                StatusMessage.setText(" ");
             }
         }
 
-        if(gradeList.size() > 0) {
-            ResultsSemesterGPA.setText(String.format("Semester GPA: %s", calculator.semesterGPA(gradeList)));
-            ResultsCumulativeGPA.setText(String.format("Cumulative GPA: %s", calculator.cumulativeGPA(gradeList)));
-        }
 
     }
 

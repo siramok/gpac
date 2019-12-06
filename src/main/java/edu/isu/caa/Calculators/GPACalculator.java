@@ -1,6 +1,6 @@
 package edu.isu.caa.Calculators;
 
-import javafx.util.Pair;
+import org.javatuples.Pair;
 
 import java.util.HashMap;
 import java.util.List;
@@ -43,32 +43,42 @@ public class GPACalculator {
         double newGPA = 0;
         int newCredits = 0;
         for(Pair<String, Integer> grade : gradeList) {
-            newGPA += scale.get(grade.getKey()) * grade.getValue();
-            newCredits += grade.getValue();
+            newGPA += scale.get(grade.getValue0()) * grade.getValue1();
+            newCredits += grade.getValue1();
         }
-        newGPA /= newCredits;
 
-        return Math.floor(((newGPA * newCredits) / (newCredits)) * 100) / 100;
+        if(newCredits > 0) {
+            newGPA /= newCredits;
+            return Math.floor(((newGPA * newCredits) / (newCredits)) * 100) / 100;
+        } else {
+            return 0;
+        }
+
     }
 
     public double cumulativeGPA(List<Pair<String, Integer>> gradeList) {
         double newGPA = 0;
         int newCredits = 0;
         for(Pair<String, Integer> grade : gradeList) {
-            newGPA += scale.get(grade.getKey()) * grade.getValue();
-            newCredits += grade.getValue();
+            newGPA += scale.get(grade.getValue0()) * grade.getValue1();
+            newCredits += grade.getValue1();
         }
-        newGPA /= newCredits;
 
-        return Math.floor(((currentGPA * currentCredits + newGPA * newCredits) / (currentCredits + newCredits)) * 100) / 100;
+        if(newCredits > 0) {
+            newGPA /= newCredits;
+            return Math.floor(((currentGPA * currentCredits + newGPA * newCredits) / (currentCredits + newCredits)) * 100) / 100;
+        } else {
+            return currentGPA;
+        }
+
+    }
+
+    public double gpaNeededToGet(double desiredGPA, int newCredits) {
+        return Math.floor((((currentCredits * desiredGPA) + (newCredits * desiredGPA) - (currentCredits * currentGPA)) / newCredits) * 100) / 100;
     }
 
     public int creditsNeededToGet(double desiredGPA, String grade) {
         return (int) Math.ceil((currentCredits * currentGPA) / (currentCredits * desiredGPA - scale.get(grade)));
-    }
-
-    public double gpaNeededToGet(double desiredGPA, int newCredits) {
-        return Math.ceil((currentCredits * newCredits * desiredGPA - currentCredits * currentGPA) / newCredits);
     }
 
     public double calculateRetake() {

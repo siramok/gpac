@@ -3,7 +3,7 @@ package edu.isu.caa.Calculators;
 import java.util.List;
 import java.util.ArrayList;
 
-import javafx.util.Pair;
+import org.javatuples.Pair;
 import org.junit.*;
 
 
