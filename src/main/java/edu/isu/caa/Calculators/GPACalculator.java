@@ -87,7 +87,12 @@ public class GPACalculator {
     }
 
     public double gpaNeededToGet(double desiredGPA, int newCredits) {
-        return Math.floor((((currentCredits * desiredGPA) + (newCredits * desiredGPA) - (currentCredits * currentGPA)) / newCredits) * 100) / 100;
+        if(newCredits > 0) {
+            return Math.floor((((currentCredits * desiredGPA) + (newCredits * desiredGPA) - (currentCredits * currentGPA)) / newCredits) * 100) / 100;
+        } else {
+            return 0;
+        }
+
     }
 
     public int creditsNeededToGet(double desiredGPA, String grade) {

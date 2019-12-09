@@ -110,16 +110,31 @@ public class MainController implements Initializable {
     TextField InfoDesiredGPA;
 
     @FXML
+    TextField ExtraBox1;
+
+    @FXML
+    TextField ExtraBox2;
+
+    @FXML
     Label ResultsSemesterGPA;
 
     @FXML
     Label ResultsCumulativeGPA;
 
     @FXML
-    Label ResultsNeededGPA;
+    Label StatusMessage;
 
     @FXML
-    Label StatusMessage;
+    Label UpdateText1;
+
+    @FXML
+    Label UpdateText2;
+
+    @FXML
+    Label ExtraResult1;
+
+    @FXML
+    Label ExtraResult2;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -155,11 +170,15 @@ public class MainController implements Initializable {
                 );
 
         StatusMessage.setText(" ");
+        InfoCurrentGPA.setText("0.0");
+        InfoCurrentCredits.setText("0");
+        InfoDesiredGPA.setText("0.0");
+        ExtraBox1.setText("0.0");
+        ExtraBox2.setText("0");
 
         InfoCurrentGPA.textProperty().addListener(new ChangeListener<String>() {
             @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue,
-                                String newValue) {
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 if (!newValue.matches("^(\\d+(\\.\\d{0,2})?|\\.?\\d*)$")) {
                     InfoCurrentGPA.setText(oldValue);
                 }
@@ -168,8 +187,7 @@ public class MainController implements Initializable {
 
         InfoCurrentCredits.textProperty().addListener(new ChangeListener<String>() {
             @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue,
-                                String newValue) {
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 if (!newValue.matches("\\d*")) {
                     InfoCurrentCredits.setText(newValue.replaceAll("[^\\d]", ""));
                 }
@@ -178,10 +196,29 @@ public class MainController implements Initializable {
 
         InfoDesiredGPA.textProperty().addListener(new ChangeListener<String>() {
             @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue,
-                                String newValue) {
-                if (!newValue.matches("^(\\d+(\\.\\d{0,2})?|\\.?\\d*)$")) {
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (!newValue.matches("^(\\d{0,2}+(\\.\\d{0,2})?|\\.?\\d*)$")) {
                     InfoDesiredGPA.setText(oldValue);
+                }
+                UpdateText1.setText(String.format("to raise my cumulative GPA to %s?", InfoDesiredGPA.getText()));
+                UpdateText2.setText(String.format("credit hours. What GPA do I need to raise my cumulative GPA to %s?", InfoDesiredGPA.getText()));
+            }
+        });
+
+        ExtraBox1.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (!newValue.matches("^(\\d{0,2}+(\\.\\d{0,2})?|\\.?\\d*)$")) {
+                    ExtraBox1.setText(oldValue);
+                }
+            }
+        });
+
+        ExtraBox2.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (!newValue.matches("\\d*")) {
+                    ExtraBox2.setText(newValue.replaceAll("[^\\d]", ""));
                 }
             }
         });
@@ -242,6 +279,10 @@ public class MainController implements Initializable {
             calculator.setCurrentGPA(Double.parseDouble(InfoCurrentGPA.getText()));
             calculator.setCurrentCredits(Integer.parseInt(InfoCurrentCredits.getText()));
 
+            if(ExtraBox2.getText() != null && !ExtraBox2.getText().isEmpty()) {
+                ExtraResult2.setText(String.format("%s", calculator.gpaNeededToGet(Double.parseDouble(InfoDesiredGPA.getText()), Integer.parseInt(ExtraBox2.getText()))));
+            }
+
             ArrayList<Pair<String, Integer>> newGradeList = new ArrayList<>();
             ArrayList<Triplet<String, String, Integer>> retakeGradeList = new ArrayList<>();
 
@@ -267,18 +308,6 @@ public class MainController implements Initializable {
             } else {
                 ResultsSemesterGPA.setText(String.format("Semester GPA: %s", calculator.semesterGPA(newGradeList, retakeGradeList)));
                 ResultsCumulativeGPA.setText(String.format("Cumulative GPA: %s", calculator.cumulativeGPA(newGradeList, retakeGradeList)));
-
-                int numCredits = 0;
-                for(Pair<String, Integer> newGrade : newGradeList) {
-                    numCredits += newGrade.getValue1();
-                }
-
-                for(Triplet<String, String, Integer> retakeGrade : retakeGradeList) {
-                    numCredits += retakeGrade.getValue2();
-                }
-
-                //ResultsNeededGPA.setText(String.format("You would need a GPA of %s this semester to raise your cumulative GPA to %s", calculator.gpaNeededToGet(Double.parseDouble(InfoDesiredGPA.getText()), numCredits), InfoDesiredGPA.getText()));
-
                 StatusMessage.setText(" GPA Calculated successfully.");
             }
         }

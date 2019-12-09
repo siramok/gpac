@@ -17,6 +17,7 @@ public class MainApp extends Application {
         scene.getStylesheets().add(getClass().getClassLoader().getResource("css/styles.css").toExternalForm());
 
         primaryStage.setTitle("GPA Calculator");
+        primaryStage.resizableProperty().setValue(false);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
