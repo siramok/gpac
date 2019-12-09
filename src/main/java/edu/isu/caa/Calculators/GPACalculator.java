@@ -61,23 +61,7 @@ public class GPACalculator {
         }
     }
 
-    public double cumulativeGPA(List<Pair<String, Integer>> gradeList) {
-        double newGPA = 0;
-        int newCredits = 0;
-        for(Pair<String, Integer> grade : gradeList) {
-            newGPA += scale.get(grade.getValue0()) * grade.getValue1();
-            newCredits += grade.getValue1();
-        }
-
-        if(newCredits > 0) {
-            newGPA /= newCredits;
-            return Math.floor(((currentGPA * currentCredits + newGPA * newCredits) / (currentCredits + newCredits)) * 100) / 100;
-        } else {
-            return currentGPA;
-        }
-    }
-
-    public double cumulativeGPAWithRetake(List<Pair<String, Integer>> newGradeList, List<Triplet<String, String, Integer>> retakeGradeList) {
+    public double cumulativeGPA(List<Pair<String, Integer>> newGradeList, List<Triplet<String, String, Integer>> retakeGradeList) {
         double newGPA = 0;
         double retakeExpectedGPA = 0;
         double retakeOriginalGPA = 0;

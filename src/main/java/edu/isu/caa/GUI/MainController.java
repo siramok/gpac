@@ -266,7 +266,7 @@ public class MainController implements Initializable {
                 StatusMessage.setText(" Nothing to calculate.");
             } else {
                 ResultsSemesterGPA.setText(String.format("Semester GPA: %s", calculator.semesterGPA(newGradeList, retakeGradeList)));
-                ResultsCumulativeGPA.setText(String.format("Cumulative GPA: %s", calculator.cumulativeGPAWithRetake(newGradeList, retakeGradeList)));
+                ResultsCumulativeGPA.setText(String.format("Cumulative GPA: %s", calculator.cumulativeGPA(newGradeList, retakeGradeList)));
 
                 int numCredits = 0;
                 for(Pair<String, Integer> newGrade : newGradeList) {
@@ -277,7 +277,7 @@ public class MainController implements Initializable {
                     numCredits += retakeGrade.getValue2();
                 }
 
-                ResultsNeededGPA.setText(String.format("You would need a GPA of %s this semester to raise your cumulative GPA to %s", calculator.gpaNeededToGet(Double.parseDouble(InfoDesiredGPA.getText()), numCredits), InfoDesiredGPA.getText()));
+                //ResultsNeededGPA.setText(String.format("You would need a GPA of %s this semester to raise your cumulative GPA to %s", calculator.gpaNeededToGet(Double.parseDouble(InfoDesiredGPA.getText()), numCredits), InfoDesiredGPA.getText()));
 
                 StatusMessage.setText(" GPA Calculated successfully.");
             }
