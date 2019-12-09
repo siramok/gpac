@@ -18,6 +18,7 @@ import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import org.javatuples.Pair;
+import org.javatuples.Triplet;
 
 public class MainController implements Initializable {
 
@@ -221,7 +222,7 @@ public class MainController implements Initializable {
             String newValue = e.getNewValue();
             int index = e.getTablePosition().getRow();
             CourseEntry entry = e.getTableView().getItems().get(index);
-            entry.setExpected(newValue);
+            entry.setOriginal(newValue);
         });
         CourseTableView.setItems(courseList);
 
@@ -232,40 +233,53 @@ public class MainController implements Initializable {
         event.consume();
 
         if(InfoCurrentGPA.getText().isEmpty()) {
-            StatusMessage.setText(" Error: The Current GPA field cannot be empty.");
+            StatusMessage.setText(" Problem: The Current GPA field cannot be empty.");
         } else if(InfoCurrentCredits.getText().isEmpty()) {
-            StatusMessage.setText(" Error: The Current Credits field cannot be empty");
+            StatusMessage.setText(" Problem: The Current Credits field cannot be empty");
         } else if(InfoDesiredGPA.getText().isEmpty()) {
-            StatusMessage.setText(" Error: The Desired field cannot be empty");
+            StatusMessage.setText(" Problem: The Desired field cannot be empty");
         } else {
             calculator.setCurrentGPA(Double.parseDouble(InfoCurrentGPA.getText()));
             calculator.setCurrentCredits(Integer.parseInt(InfoCurrentCredits.getText()));
 
-            ArrayList<Pair<String, Integer>> gradeList = new ArrayList<>();
+            ArrayList<Pair<String, Integer>> newGradeList = new ArrayList<>();
+            ArrayList<Triplet<String, String, Integer>> retakeGradeList = new ArrayList<>();
 
             for(int i = 0; i < 15; i++) {
                 String expected = ExpectedGradeColumn.getCellData(i);
                 String credits = CreditHoursColumn.getCellData(i);
                 if(expected != null && expected != "" && credits != null && credits != "") {
-                    Pair<String, Integer> data = new Pair(ExpectedGradeColumn.getCellData(i), Integer.parseInt(CreditHoursColumn.getCellData(i)));
-                    gradeList.add(data);
+                    String retake = RetakeColumn.getCellData(i);
+                    String original = OriginalGradeColumn.getCellData(i);
+
+                    if(retake != null && retake == "Yes" && original != null && original != "") {
+                        Triplet<String, String, Integer> retakeData = new Triplet(original, expected, Integer.parseInt(credits));
+                        retakeGradeList.add(retakeData);
+                    } else {
+                        Pair<String, Integer> newData = new Pair(expected, Integer.parseInt(credits));
+                        newGradeList.add(newData);
+                    }
                 }
             }
 
-            if(gradeList.size() <= 0) {
-                StatusMessage.setText(" Warning: Nothing to calculate, no courses listed.");
+            if(newGradeList.size() <= 0 && retakeGradeList.size() <= 0) {
+                StatusMessage.setText(" Nothing to calculate.");
             } else {
-                ResultsSemesterGPA.setText(String.format("Semester GPA: %s", calculator.semesterGPA(gradeList)));
-                ResultsCumulativeGPA.setText(String.format("Cumulative GPA: %s", calculator.cumulativeGPA(gradeList)));
+                ResultsSemesterGPA.setText(String.format("Semester GPA: %s", calculator.semesterGPA(newGradeList, retakeGradeList)));
+                ResultsCumulativeGPA.setText(String.format("Cumulative GPA: %s", calculator.cumulativeGPAWithRetake(newGradeList, retakeGradeList)));
 
                 int numCredits = 0;
-                for(Pair<String, Integer> grade : gradeList) {
-                    numCredits += grade.getValue1();
+                for(Pair<String, Integer> newGrade : newGradeList) {
+                    numCredits += newGrade.getValue1();
+                }
+
+                for(Triplet<String, String, Integer> retakeGrade : retakeGradeList) {
+                    numCredits += retakeGrade.getValue2();
                 }
 
                 ResultsNeededGPA.setText(String.format("You would need a GPA of %s this semester to raise your cumulative GPA to %s", calculator.gpaNeededToGet(Double.parseDouble(InfoDesiredGPA.getText()), numCredits), InfoDesiredGPA.getText()));
 
-                StatusMessage.setText(" ");
+                StatusMessage.setText(" GPA Calculated successfully.");
             }
         }
 

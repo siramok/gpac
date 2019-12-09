@@ -1,6 +1,7 @@
 package edu.isu.caa.Calculators;
 
 import org.javatuples.Pair;
+import org.javatuples.Triplet;
 
 import java.util.HashMap;
 import java.util.List;
@@ -39,12 +40,17 @@ public class GPACalculator {
         this.currentCredits = credits;
     }
 
-    public double semesterGPA(List<Pair<String, Integer>> gradeList) {
+    public double semesterGPA(List<Pair<String, Integer>> newGradeList, List<Triplet<String, String, Integer>> retakeGradeList) {
         double newGPA = 0;
         int newCredits = 0;
-        for(Pair<String, Integer> grade : gradeList) {
+        for(Pair<String, Integer> grade : newGradeList) {
             newGPA += scale.get(grade.getValue0()) * grade.getValue1();
             newCredits += grade.getValue1();
+        }
+
+        for(Triplet<String, String, Integer> grade : retakeGradeList) {
+            newGPA += scale.get(grade.getValue1()) * grade.getValue2();
+            newCredits += grade.getValue2();
         }
 
         if(newCredits > 0) {
@@ -53,7 +59,6 @@ public class GPACalculator {
         } else {
             return 0;
         }
-
     }
 
     public double cumulativeGPA(List<Pair<String, Integer>> gradeList) {
@@ -70,7 +75,31 @@ public class GPACalculator {
         } else {
             return currentGPA;
         }
+    }
 
+    public double cumulativeGPAWithRetake(List<Pair<String, Integer>> newGradeList, List<Triplet<String, String, Integer>> retakeGradeList) {
+        double newGPA = 0;
+        double retakeExpectedGPA = 0;
+        double retakeOriginalGPA = 0;
+        int newCredits = 0;
+        int retakeCredits = 0;
+
+        for(Pair<String, Integer> newGrade : newGradeList) {
+            newGPA += scale.get(newGrade.getValue0()) * newGrade.getValue1();
+            newCredits += newGrade.getValue1();
+        }
+
+        for(Triplet<String, String, Integer> retakeGrade : retakeGradeList) {
+            retakeOriginalGPA += scale.get(retakeGrade.getValue0()) * retakeGrade.getValue2();
+            retakeExpectedGPA += scale.get(retakeGrade.getValue1()) * retakeGrade.getValue2();
+            retakeCredits += retakeGrade.getValue2();
+        }
+
+        if((newCredits + retakeCredits) > 0) {
+            return Math.floor(((currentGPA * currentCredits + newGPA + retakeExpectedGPA - retakeOriginalGPA ) / (currentCredits + newCredits)) * 100) / 100;
+        } else {
+            return currentGPA;
+        }
     }
 
     public double gpaNeededToGet(double desiredGPA, int newCredits) {
@@ -79,10 +108,6 @@ public class GPACalculator {
 
     public int creditsNeededToGet(double desiredGPA, String grade) {
         return (int) Math.ceil((currentCredits * currentGPA) / (currentCredits * desiredGPA - scale.get(grade)));
-    }
-
-    public double calculateRetake() {
-        return 0;
     }
 
 }
