@@ -1,6 +1,7 @@
 package edu.isu.caa.GUI;
 
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -200,8 +201,8 @@ public class MainController implements Initializable {
                 if (!newValue.matches("^(\\d{0,2}+(\\.\\d{0,2})?|\\.?\\d*)$")) {
                     InfoDesiredGPA.setText(oldValue);
                 }
-                UpdateText1.setText(String.format("to raise my cumulative GPA to %s?", InfoDesiredGPA.getText()));
-                UpdateText2.setText(String.format("credit hours. What GPA do I need to raise my cumulative GPA to %s?", InfoDesiredGPA.getText()));
+                UpdateText1.setText(String.format(" to raise my cumulative GPA to %s?", InfoDesiredGPA.getText()));
+                UpdateText2.setText(String.format("What GPA do I need to raise my cumulative GPA to %s?", InfoDesiredGPA.getText()));
             }
         });
 
@@ -279,6 +280,10 @@ public class MainController implements Initializable {
             calculator.setCurrentGPA(Double.parseDouble(InfoCurrentGPA.getText()));
             calculator.setCurrentCredits(Integer.parseInt(InfoCurrentCredits.getText()));
 
+            if(ExtraBox1.getText() != null && !ExtraBox1.getText().isEmpty()) {
+                ExtraResult1.setText(String.format("%s", calculator.creditsNeededToGet(Double.parseDouble(InfoDesiredGPA.getText()), Double.parseDouble(ExtraBox1.getText()))));
+            }
+
             if(ExtraBox2.getText() != null && !ExtraBox2.getText().isEmpty()) {
                 ExtraResult2.setText(String.format("%s", calculator.gpaNeededToGet(Double.parseDouble(InfoDesiredGPA.getText()), Integer.parseInt(ExtraBox2.getText()))));
             }
@@ -304,10 +309,10 @@ public class MainController implements Initializable {
             }
 
             if(newGradeList.size() <= 0 && retakeGradeList.size() <= 0) {
-                StatusMessage.setText(" Nothing to calculate.");
+                StatusMessage.setText(" GPA cannot be calculated. Credit hours and expected GPA are required for each course entered.");
             } else {
-                ResultsSemesterGPA.setText(String.format("Semester GPA: %s", calculator.semesterGPA(newGradeList, retakeGradeList)));
-                ResultsCumulativeGPA.setText(String.format("Cumulative GPA: %s", calculator.cumulativeGPA(newGradeList, retakeGradeList)));
+                ResultsSemesterGPA.setText(String.format("%s", calculator.semesterGPA(newGradeList, retakeGradeList)));
+                ResultsCumulativeGPA.setText(String.format("%s", calculator.cumulativeGPA(newGradeList, retakeGradeList)));
                 StatusMessage.setText(" GPA Calculated successfully.");
             }
         }

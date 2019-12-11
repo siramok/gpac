@@ -88,15 +88,19 @@ public class GPACalculator {
 
     public double gpaNeededToGet(double desiredGPA, int newCredits) {
         if(newCredits > 0) {
-            return Math.floor((((currentCredits * desiredGPA) + (newCredits * desiredGPA) - (currentCredits * currentGPA)) / newCredits) * 100) / 100;
+            return (double) Math.round((((currentCredits * desiredGPA) + (newCredits * desiredGPA) - (currentCredits * currentGPA)) / newCredits) * 100) / 100;
         } else {
             return 0;
         }
 
     }
 
-    public int creditsNeededToGet(double desiredGPA, String grade) {
-        return (int) Math.ceil((currentCredits * currentGPA) / (currentCredits * desiredGPA - scale.get(grade)));
+    public int creditsNeededToGet(double desiredGPA, double newGPA) {
+        if(desiredGPA == 0 || newGPA == 0) {
+            return 0;
+        } else {
+            return (int) Math.ceil((desiredGPA * currentCredits - currentGPA * currentCredits) / (newGPA - desiredGPA));
+        }
     }
 
 }
