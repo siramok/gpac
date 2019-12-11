@@ -4,12 +4,14 @@ import java.util.List;
 import java.util.ArrayList;
 
 import org.javatuples.Pair;
+import org.javatuples.Triplet;
 import org.junit.*;
 
 
 public class GPACalculatorTest {
     private GPACalculator fixture;
-    private List<Pair<String, Integer>> grades;
+    private List<Pair<String, Integer>> newGrades;
+    private List<Triplet<String, String, Integer>> retakeGrades;
 
     @BeforeClass
     public static void setUpClass() {
@@ -22,7 +24,8 @@ public class GPACalculatorTest {
     @Before
     public void setUp() {
         fixture = new GPACalculator(0, 0);
-        grades = new ArrayList<>();
+        newGrades = new ArrayList<>();
+        retakeGrades = new ArrayList<>();
     }
 
     @After
@@ -32,11 +35,11 @@ public class GPACalculatorTest {
     @Test
     public void testCalculate_1() {
         // Ensure that the default value of 0 for GPA and Credits does not break the calculation.
-        grades.add(new Pair("A", 3));
-        grades.add(new Pair("A", 3));
-        grades.add(new Pair("A", 3));
-        grades.add(new Pair("A", 3));
-        Assert.assertEquals(4.0, fixture.cumulativeGPA(grades), 0.0001);
+        newGrades.add(new Pair("A", 3));
+        newGrades.add(new Pair("A", 3));
+        newGrades.add(new Pair("A", 3));
+        newGrades.add(new Pair("A", 3));
+        Assert.assertEquals(4.0, fixture.cumulativeGPA(newGrades, retakeGrades), 0.0001);
     }
 
     @Test
@@ -44,11 +47,11 @@ public class GPACalculatorTest {
         // Ensure that GPA is calculated correctly and rounded to 2 decimal places.
         fixture.setCurrentGPA(2.8);
         fixture.setCurrentCredits(17);
-        grades.add(new Pair("A", 3));
-        grades.add(new Pair("A", 3));
-        grades.add(new Pair("A", 3));
-        grades.add(new Pair("A", 3));
-        Assert.assertEquals(3.29, fixture.cumulativeGPA(grades), 0.0001);
+        newGrades.add(new Pair("A", 3));
+        newGrades.add(new Pair("A", 3));
+        newGrades.add(new Pair("A", 3));
+        newGrades.add(new Pair("A", 3));
+        Assert.assertEquals(3.29, fixture.cumulativeGPA(newGrades, retakeGrades), 0.0001);
     }
 
     @Test
