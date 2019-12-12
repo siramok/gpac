@@ -10,6 +10,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
@@ -230,12 +231,7 @@ public class MainController implements Initializable {
 
         CourseColumn.setCellValueFactory(new PropertyValueFactory<>("Course"));
         CourseColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-        CourseColumn.setOnEditCommit( (TableColumn.CellEditEvent<CourseEntry, String> e) -> {
-            String newValue = e.getNewValue();
-            int index = e.getTablePosition().getRow();
-            CourseEntry entry = e.getTableView().getItems().get(index);
-            entry.setCourse(newValue);
-        });
+
         CreditHoursColumn.setCellValueFactory(new PropertyValueFactory<>("Credits"));
         CreditHoursColumn.setCellFactory(ComboBoxTableCell.<CourseEntry, String>forTableColumn("", "0", "1", "2", "3", "4", "5"));
         CreditHoursColumn.setOnEditCommit( (TableColumn.CellEditEvent<CourseEntry, String> e) -> {
@@ -331,4 +327,5 @@ public class MainController implements Initializable {
         event.consume();
         System.exit(0);
     }
+
 }

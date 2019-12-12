@@ -16,9 +16,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="600.0" prefWidth="908.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.isu.caa.GUI.MainController">
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="908.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.isu.caa.GUI.MainController">
   <children>
-    <MenuBar VBox.vgrow="NEVER">
+    <MenuBar maxHeight="-Infinity" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
       <menus>
         <Menu mnemonicParsing="false" text="File">
           <items>
@@ -33,20 +33,20 @@
         </Menu>
       </menus>
     </MenuBar>
-      <TabPane prefHeight="561.0" prefWidth="923.0" tabClosingPolicy="UNAVAILABLE">
+      <TabPane prefHeight="561.0" prefWidth="923.0" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
         <tabs>
           <Tab text="GPA Calculator">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="527.0" prefWidth="915.0">
+              <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="527.0" prefWidth="915.0">
                      <children>
                   <Label alignment="CENTER" layoutX="30.0" layoutY="29.0" minWidth="60.0" prefHeight="39.0" prefWidth="180.0" style="&#10;" text="Student Information" textAlignment="CENTER" wrapText="false">
                     <font>
                       <Font size="20.0" fx:id="x1" />
                     </font>
                   </Label>
-                        <TextField fx:id="InfoCurrentGPA" alignment="CENTER" layoutX="148.0" layoutY="80.0" prefHeight="25.0" prefWidth="53.0" />
-                        <TextField fx:id="InfoCurrentCredits" alignment="CENTER" layoutX="148.0" layoutY="110.0" prefHeight="25.0" prefWidth="53.0" />
-                        <TextField fx:id="InfoDesiredGPA" alignment="CENTER" layoutX="148.0" layoutY="141.0" prefHeight="25.0" prefWidth="53.0" />
+                        <TextField fx:id="InfoCurrentGPA" alignment="CENTER" layoutX="148.0" layoutY="80.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="25.0" prefWidth="53.0" />
+                        <TextField fx:id="InfoCurrentCredits" alignment="CENTER" layoutX="148.0" layoutY="110.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="25.0" prefWidth="53.0" />
+                        <TextField fx:id="InfoDesiredGPA" alignment="CENTER" layoutX="148.0" layoutY="141.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="25.0" prefWidth="53.0" />
                         <Button fx:id="CalculateButton" layoutX="255.0" layoutY="115.0" mnemonicParsing="false" onAction="#calculateFields" prefHeight="31.0" prefWidth="211.0" text="Calculate">
                            <font>
                               <Font size="18.0" />
@@ -67,7 +67,7 @@
                               <Font size="13.0" />
                            </font>
                         </Label>
-                        <TableView fx:id="GradeScaleTableView" layoutY="238.0" prefHeight="291.0" prefWidth="239.0">
+                        <TableView fx:id="GradeScaleTableView" layoutY="238.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="291.0" prefWidth="239.0">
                           <columns>
                             <TableColumn fx:id="GradeScaleLetterColumn" editable="false" prefWidth="67.0" resizable="false" sortable="false" text="Letter" />
                             <TableColumn fx:id="GradeScaleRangeColumn" editable="false" prefWidth="93.0" resizable="false" sortable="false" text="Grade" />
@@ -114,7 +114,7 @@
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <TableView fx:id="CourseTableView" editable="true" layoutX="238.0" layoutY="166.0" prefHeight="363.0" prefWidth="670.0">
+                        <TableView fx:id="CourseTableView" editable="true" layoutX="238.0" layoutY="166.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="363.0" prefWidth="670.0">
                           <columns>
                             <TableColumn fx:id="CourseColumn" prefWidth="200.0" resizable="false" text="Course" />
                             <TableColumn fx:id="CreditHoursColumn" prefWidth="121.0" resizable="false" text="Credit Hours" />
@@ -145,7 +145,7 @@
           </Tab>
             <Tab text="Final Grade Calculator">
                <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                  <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
                         <Label alignment="TOP_LEFT" layoutX="262.0" layoutY="230.0" prefHeight="70.0" prefWidth="384.0" text="Coming Soon">
                            <font>
@@ -158,9 +158,9 @@
             </Tab>
         </tabs>
       </TabPane>
-      <HBox prefHeight="17.0" prefWidth="910.0">
+      <HBox fillHeight="false" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="17.0" prefWidth="910.0" VBox.vgrow="ALWAYS">
          <children>
-            <Label fx:id="StatusMessage" prefHeight="19.0" prefWidth="919.0" text=" Status Message" />
+            <Label fx:id="StatusMessage" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="19.0" prefWidth="919.0" text=" Status Message" HBox.hgrow="ALWAYS" />
          </children>
       </HBox>
   </children>
