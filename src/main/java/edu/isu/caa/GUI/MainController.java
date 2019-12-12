@@ -1,7 +1,6 @@
 package edu.isu.caa.GUI;
 
 import java.net.URL;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -202,7 +201,7 @@ public class MainController implements Initializable {
                     InfoDesiredGPA.setText(oldValue);
                 }
                 UpdateText1.setText(String.format(" to raise my cumulative GPA to %s?", InfoDesiredGPA.getText()));
-                UpdateText2.setText(String.format("What GPA do I need to raise my cumulative GPA to %s?", InfoDesiredGPA.getText()));
+                UpdateText2.setText(String.format("credits. What GPA do I need to raise my cumulative GPA to %s?", InfoDesiredGPA.getText()));
             }
         });
 
@@ -229,7 +228,14 @@ public class MainController implements Initializable {
         GradeScaleNumberColumn.setCellValueFactory(new PropertyValueFactory<>("Number"));
         GradeScaleTableView.setItems(scaleList);
 
+        CourseColumn.setCellValueFactory(new PropertyValueFactory<>("Course"));
         CourseColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        CourseColumn.setOnEditCommit( (TableColumn.CellEditEvent<CourseEntry, String> e) -> {
+            String newValue = e.getNewValue();
+            int index = e.getTablePosition().getRow();
+            CourseEntry entry = e.getTableView().getItems().get(index);
+            entry.setCourse(newValue);
+        });
         CreditHoursColumn.setCellValueFactory(new PropertyValueFactory<>("Credits"));
         CreditHoursColumn.setCellFactory(ComboBoxTableCell.<CourseEntry, String>forTableColumn("", "0", "1", "2", "3", "4", "5"));
         CreditHoursColumn.setOnEditCommit( (TableColumn.CellEditEvent<CourseEntry, String> e) -> {
