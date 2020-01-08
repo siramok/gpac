@@ -23,4 +23,10 @@ javafx {
     modules = [ 'javafx.controls', 'javafx.fxml' ]
 }
 
-mainClassName = 'edu.isu.caa.GUI.App'
+mainClassName = 'edu.isu.caa.Main'
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'edu.isu.caa.Main'
+    }
+}

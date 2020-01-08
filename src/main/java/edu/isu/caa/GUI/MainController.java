@@ -14,12 +14,17 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
+import javafx.geometry.Bounds;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.layout.VBox;
 import org.javatuples.Pair;
 import org.javatuples.Triplet;
+
+import javax.swing.*;
 
 public class MainController implements Initializable {
 
@@ -136,6 +141,87 @@ public class MainController implements Initializable {
 
     @FXML
     Label ExtraResult2;
+
+    @FXML
+    ChoiceBox FinalGradeChoiceBox;
+
+    @FXML
+    Label FinalGradeChoiceDescription;
+
+    @FXML
+    Label FinalGrade00;
+
+    @FXML
+    Label FinalGrade20;
+
+    @FXML
+    Label FinalGrade01;
+
+    @FXML
+    Label FinalGrade21;
+
+    @FXML
+    Label FinalGrade02;
+
+    @FXML
+    Label FinalGrade22;
+
+    @FXML
+    Label FinalGrade03;
+
+    @FXML
+    Label FinalGrade23;
+
+    @FXML
+    Label FinalGrade04;
+
+    @FXML
+    Label FinalGrade24;
+
+    @FXML
+    Label FinalGrade05;
+
+    @FXML
+    Label FinalGrade25;
+
+    @FXML
+    Label FinalGrade06;
+
+    @FXML
+    Label FinalGrade26;
+
+    @FXML
+    Label FinalGrade07;
+
+    @FXML
+    Label FinalGrade27;
+
+    @FXML
+    TextField FinalGradeText1;
+
+    @FXML
+    TextField FinalGradeText2;
+
+    @FXML
+    TextField FinalGradeText3;
+
+    @FXML
+    TextField FinalGradeText4;
+
+    @FXML
+    TextField FinalGradeText5;
+
+    @FXML
+    TextField FinalGradeText6;
+
+    @FXML
+    TextField FinalGradeText7;
+
+    @FXML
+    TextField FinalGradeText8;
+
+    @FXML
+    Button FinalGradeCalculateButton;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -266,10 +352,354 @@ public class MainController implements Initializable {
         });
         CourseTableView.setItems(courseList);
 
+        FinalGradeChoiceBox.getItems().add("Simple Calculator");
+        FinalGradeChoiceBox.getItems().add("I took the final. What is my overall grade?");
+        FinalGradeChoiceBox.getItems().add("My final counts as a test. What do I need to get?");
+        FinalGradeChoiceBox.getItems().add("There are 2+ parts in my final. What do I have to get on them?");
+        FinalGradeChoiceBox.getItems().add("My class has a point system. How much is the final worth?");
+        FinalGradeChoiceBox.getItems().add("My lowest test grade is dropped. What do I need to get?");
+        FinalGradeChoiceBox.setValue("Simple Calculator");
+
+        FinalGradeText1.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (!newValue.matches("^(\\d+(\\.\\d{0,2})?|\\.?\\d*)$")) {
+                    FinalGradeText1.setText(oldValue);
+                }
+            }
+        });
+
+        FinalGradeText2.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (!newValue.matches("^(\\d+(\\.\\d{0,2})?|\\.?\\d*)$")) {
+                    FinalGradeText2.setText(oldValue);
+                }
+            }
+        });
+
+        FinalGradeText3.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (!newValue.matches("^(\\d+(\\.\\d{0,2})?|\\.?\\d*)$")) {
+                    FinalGradeText3.setText(oldValue);
+                }
+            }
+        });
+
+        FinalGradeText4.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (!newValue.matches("^(\\d+(\\.\\d{0,2})?|\\.?\\d*)$")) {
+                    FinalGradeText4.setText(oldValue);
+                }
+            }
+        });
+
+        FinalGradeText5.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (!newValue.matches("^(\\d+(\\.\\d{0,2})?|\\.?\\d*)$")) {
+                    FinalGradeText5.setText(oldValue);
+                }
+            }
+        });
+
+        FinalGradeText6.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (!newValue.matches("^(\\d+(\\.\\d{0,2})?|\\.?\\d*)$")) {
+                    FinalGradeText6.setText(oldValue);
+                }
+            }
+        });
+
+        FinalGradeText7.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (!newValue.matches("^(\\d+(\\.\\d{0,2})?|\\.?\\d*)$")) {
+                    FinalGradeText7.setText(oldValue);
+                }
+            }
+        });
+
+        FinalGradeText8.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (!newValue.matches("^(\\d+(\\.\\d{0,2})?|\\.?\\d*)$")) {
+                    FinalGradeText8.setText(oldValue);
+                }
+            }
+        });
+
+        evaluateChoiceBox(new ActionEvent());
     }
 
     @FXML
-    public void calculateFields(ActionEvent event) {
+    public void evaluateChoiceBox(ActionEvent event) {
+        event.consume();
+
+        switch(FinalGradeChoiceBox.getSelectionModel().getSelectedIndex()) {
+            case 0:
+                FinalGradeChoiceDescription.setText("The Simple Calculator helps determine what grade you need on your final exam in order to get a certain grade in a class.");
+
+                FinalGradeText1.setVisible(true);
+                FinalGradeText2.setVisible(true);
+                FinalGradeText3.setVisible(true);
+                FinalGradeText4.setVisible(false);
+                FinalGradeText5.setVisible(false);
+                FinalGradeText6.setVisible(false);
+                FinalGradeText7.setVisible(false);
+                FinalGradeText8.setVisible(false);
+
+                FinalGradeCalculateButton.setLayoutY(FinalGradeChoiceDescription.getLayoutY() + 170);
+
+                FinalGrade00.setText("Your current grade is ");
+                FinalGradeText1.setText("");
+                FinalGrade20.setText(" %.");
+
+                FinalGrade01.setText("You want (at least) a ");
+                FinalGradeText2.setText("");
+                FinalGrade21.setText(" % in the class.");
+
+                FinalGrade02.setText("Your final is worth ");
+                FinalGradeText3.setText("");
+                FinalGrade22.setText(" % of your grade.");
+
+                FinalGrade03.setText("");
+                FinalGrade23.setText("");
+
+                FinalGrade04.setText("");
+                FinalGrade24.setText("");
+
+                FinalGrade05.setText("");
+                FinalGrade25.setText("");
+
+                FinalGrade06.setText("");
+                FinalGrade26.setText("");
+
+                FinalGrade07.setText("");
+                FinalGrade27.setText("");
+                break;
+            case 1:
+                FinalGradeChoiceDescription.setText("Since you have already taken your final exam, you can now calculate your overall grade.");
+
+                FinalGradeText1.setVisible(true);
+                FinalGradeText2.setVisible(true);
+                FinalGradeText3.setVisible(true);
+                FinalGradeText4.setVisible(false);
+                FinalGradeText5.setVisible(false);
+                FinalGradeText6.setVisible(false);
+                FinalGradeText7.setVisible(false);
+                FinalGradeText8.setVisible(false);
+
+                FinalGradeCalculateButton.setLayoutY(FinalGradeChoiceDescription.getLayoutY() + 170);
+
+                FinalGrade00.setText("Your grade was ");
+                FinalGradeText1.setText("");
+                FinalGrade20.setText(" % before.");
+
+                FinalGrade01.setText("You got a ");
+                FinalGradeText2.setText("");
+                FinalGrade21.setText(" % on the final.");
+
+                FinalGrade02.setText("Your final is worth ");
+                FinalGradeText3.setText("");
+                FinalGrade22.setText(" % of your grade.");
+
+                FinalGrade03.setText("");
+                FinalGrade23.setText("");
+
+                FinalGrade04.setText("");
+                FinalGrade24.setText("");
+
+                FinalGrade05.setText("");
+                FinalGrade25.setText("");
+
+                FinalGrade06.setText("");
+                FinalGrade26.setText("");
+
+                FinalGrade07.setText("");
+                FinalGrade27.setText("");
+                break;
+            case 2:
+                FinalGradeChoiceDescription.setText("If your final is in the \"tests\" category, then your overall grade will be affected by your current test average and how many tests you have taken so far.");
+
+                FinalGradeText1.setVisible(true);
+                FinalGradeText2.setVisible(true);
+                FinalGradeText3.setVisible(true);
+                FinalGradeText4.setVisible(true);
+                FinalGradeText5.setVisible(true);
+                FinalGradeText6.setVisible(true);
+                FinalGradeText7.setVisible(false);
+                FinalGradeText8.setVisible(false);
+
+                FinalGradeCalculateButton.setLayoutY(FinalGradeChoiceDescription.getLayoutY() + 280);
+
+                FinalGrade00.setText("Your current grade is ");
+                FinalGradeText1.setText("");
+                FinalGrade20.setText(" %.");
+
+                FinalGrade01.setText("You want (at least) a ");
+                FinalGradeText2.setText("");
+                FinalGrade21.setText(" % in the class.");
+
+                FinalGrade02.setText("Tests are worth ");
+                FinalGradeText3.setText("");
+                FinalGrade22.setText(" % of your grade.");
+
+                FinalGrade03.setText("You have taken ");
+                FinalGradeText4.setText("");
+                FinalGrade23.setText(" tests already");
+
+                FinalGrade04.setText("Your test average is ");
+                FinalGradeText5.setText("");
+                FinalGrade24.setText(" %.");
+
+                FinalGrade05.setText("The final is worth ");
+                FinalGradeText5.setText("");
+                FinalGrade25.setText(" tests.");
+
+                FinalGrade06.setText("");
+                FinalGrade26.setText("");
+
+                FinalGrade07.setText("");
+                FinalGrade27.setText("");
+                break;
+            case 3:
+                FinalGradeChoiceDescription.setText("If your final has multiple parts and you've finished some of them, then you can calculate what you need on the remaining parts. Your current grade should not include any part of your final.");
+
+                FinalGradeText1.setVisible(true);
+                FinalGradeText2.setVisible(true);
+                FinalGradeText3.setVisible(true);
+                FinalGradeText4.setVisible(true);
+                FinalGradeText5.setVisible(true);
+                FinalGradeText6.setVisible(false);
+                FinalGradeText7.setVisible(false);
+                FinalGradeText8.setVisible(false);
+
+                FinalGradeCalculateButton.setLayoutY(FinalGradeChoiceDescription.getLayoutY() + 240);
+
+                FinalGrade00.setText("Your current grade is ");
+                FinalGradeText1.setText("");
+                FinalGrade20.setText(" %.");
+
+                FinalGrade01.setText("You want (at least) a ");
+                FinalGradeText2.setText("");
+                FinalGrade21.setText(" % in the class.");
+
+                FinalGrade02.setText("Your final is worth ");
+                FinalGradeText3.setText("");
+                FinalGrade22.setText(" % of your grade.");
+
+                FinalGrade03.setText("You have ");
+                FinalGradeText4.setText("");
+                FinalGrade23.setText(" parts to your final.");
+
+                FinalGrade04.setText("You have taken ");
+                FinalGradeText5.setText("");
+                FinalGrade24.setText(" part(s) already.");
+
+                FinalGrade05.setText("");
+                FinalGrade25.setText("");
+
+                FinalGrade06.setText("");
+                FinalGrade26.setText("");
+
+                FinalGrade07.setText("");
+                FinalGrade27.setText("");
+                break;
+            case 4:
+                FinalGradeChoiceDescription.setText("You can calculate how much your final is worth by dividing the number of points in your final by the total number of points.");
+
+                FinalGradeText1.setVisible(true);
+                FinalGradeText2.setVisible(true);
+                FinalGradeText3.setVisible(false);
+                FinalGradeText4.setVisible(false);
+                FinalGradeText5.setVisible(false);
+                FinalGradeText6.setVisible(false);
+                FinalGradeText7.setVisible(false);
+                FinalGradeText8.setVisible(false);
+
+                FinalGradeCalculateButton.setLayoutY(FinalGradeChoiceDescription.getLayoutY() + 135);
+
+                FinalGrade00.setText("Including the final, there are ");
+                FinalGradeText1.setText("");
+                FinalGrade20.setText(" points possible.");
+
+                FinalGrade01.setText("Your final is worth ");
+                FinalGradeText2.setText("");
+                FinalGrade21.setText(" points.");
+
+                FinalGrade02.setText("");
+                FinalGrade22.setText("");
+
+                FinalGrade03.setText("");
+                FinalGrade23.setText("");
+
+                FinalGrade04.setText("");
+                FinalGrade24.setText("");
+
+                FinalGrade05.setText("");
+                FinalGrade25.setText("");
+
+                FinalGrade06.setText("");
+                FinalGrade26.setText("");
+
+                FinalGrade07.setText("");
+                FinalGrade27.setText("");
+                break;
+            case 5:
+                FinalGradeChoiceDescription.setText("Your overall grade depends on how low your lowest test grades are. If your final replaces your lowest test grade, then tell the calculator that your lowest 1 test is dropped and your final also counts as 1 test.");
+
+                FinalGradeText1.setVisible(true);
+                FinalGradeText2.setVisible(true);
+                FinalGradeText3.setVisible(true);
+                FinalGradeText4.setVisible(true);
+                FinalGradeText5.setVisible(true);
+                FinalGradeText6.setVisible(true);
+                FinalGradeText7.setVisible(true);
+                FinalGradeText8.setVisible(true);
+
+                FinalGradeCalculateButton.setLayoutY(FinalGradeChoiceDescription.getLayoutY() + 350);
+
+                FinalGrade00.setText("Your current grade is ");
+                FinalGradeText1.setText("");
+                FinalGrade20.setText(" %.");
+
+                FinalGrade01.setText("You want (at least) a ");
+                FinalGradeText2.setText("");
+                FinalGrade21.setText(" % in the class.");
+
+                FinalGrade02.setText("Tests are worth ");
+                FinalGradeText3.setText("");
+                FinalGrade22.setText(" % of your grade.");
+
+                FinalGrade03.setText("You have taken ");
+                FinalGradeText4.setText("");
+                FinalGrade23.setText(" tests already.");
+
+                FinalGrade04.setText("Your test average is ");
+                FinalGradeText5.setText("");
+                FinalGrade24.setText(" %.");
+
+                FinalGrade05.setText("Your lowest ");
+                FinalGradeText6.setText("");
+                FinalGrade25.setText(" tests are dropped.");
+
+                FinalGrade06.setText("Your final also counts as ");
+                FinalGradeText7.setText("");
+                FinalGrade26.setText(" tests.");
+
+                FinalGrade07.setText("Your final is also worth ");
+                FinalGradeText8.setText("");
+                FinalGrade27.setText(" % of your grade.");
+                break;
+        }
+    }
+
+    @FXML
+    public void calculateGPAFields(ActionEvent event) {
         event.consume();
 
         if(InfoCurrentGPA.getText().isEmpty()) {
@@ -319,6 +749,12 @@ public class MainController implements Initializable {
             }
         }
 
+
+    }
+
+    @FXML
+    public void calculateFinalGradeFields(ActionEvent event) {
+        event.consume();
 
     }
 
