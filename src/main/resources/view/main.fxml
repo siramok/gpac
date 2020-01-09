@@ -32,7 +32,7 @@
         </Menu>
         <Menu mnemonicParsing="false" text="Help">
           <items>
-            <MenuItem mnemonicParsing="false" text="About GPA Calculator" />
+            <MenuItem mnemonicParsing="false" onAction="#showAboutAlert" text="About GPA Calculator" />
           </items>
         </Menu>
       </menus>
@@ -151,7 +151,7 @@
                <content>
                   <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <ChoiceBox fx:id="FinalGradeChoiceBox" layoutX="224.0" layoutY="9.0" onAction="#evaluateChoiceBox" prefHeight="25.0" prefWidth="460.0" />
+                        <ChoiceBox fx:id="FinalGradeChoiceBox" layoutX="224.0" layoutY="21.0" onAction="#evaluateChoiceBox" prefHeight="25.0" prefWidth="460.0" />
                         <Label fx:id="FinalGradeChoiceDescription" alignment="CENTER" layoutX="77.0" layoutY="73.0" prefHeight="42.0" prefWidth="754.0" text="Label" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS" wrapText="true">
                            <font>
                               <Font size="13.0" />

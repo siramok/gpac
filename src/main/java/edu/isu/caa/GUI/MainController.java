@@ -770,6 +770,16 @@ public class MainController implements Initializable {
     }
 
     @FXML
+    public void showAboutAlert(ActionEvent event) {
+        event.consume();
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("About GPA Calculator");
+        alert.setHeaderText("An informational tool for students and academic advisors.");
+        alert.setContentText("Author: Andres Sewell\nhttps://github.com/siramok\nVersion 1.0");
+        alert.showAndWait();
+    }
+
+    @FXML
     public void closeProgram(ActionEvent event) {
         event.consume();
         System.exit(0);
