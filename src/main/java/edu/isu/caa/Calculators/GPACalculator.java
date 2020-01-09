@@ -1,11 +1,16 @@
 package edu.isu.caa.Calculators;
 
-import org.javatuples.Pair;
-import org.javatuples.Triplet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.javatuples.Pair;
+import org.javatuples.Triplet;
 
+/**
+ * A class with various functions for calculating GPA.
+ *
+ * @author Andres Sewell
+ */
 public class GPACalculator {
 
     private double currentGPA;
@@ -31,14 +36,16 @@ public class GPACalculator {
         scale.put("X", 4.0);
     }
 
-    public void setCurrentGPA(double gpa) {
-        this.currentGPA = gpa;
-    }
+    public void setCurrentGPA(double gpa) { this.currentGPA = gpa; }
+    public void setCurrentCredits(int credits) { this.currentCredits = credits; }
 
-    public void setCurrentCredits(int credits) {
-        this.currentCredits = credits;
-    }
-
+    /**
+     * Calculates a semester GPA (without regard for previous credits or GPA).
+     *
+     * @param newGradeList
+     * @param retakeGradeList
+     * @return
+     */
     public double semesterGPA(List<Pair<String, Integer>> newGradeList, List<Triplet<String, String, Integer>> retakeGradeList) {
         double newGPA = 0;
         int newCredits = 0;
