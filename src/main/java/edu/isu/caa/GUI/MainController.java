@@ -4,27 +4,22 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import edu.isu.caa.Calculators.FinalGradeCalculator;
 import edu.isu.caa.Calculators.GPACalculator;
 import javafx.beans.property.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
-import javafx.geometry.Bounds;
-import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.scene.layout.VBox;
 import org.javatuples.Pair;
 import org.javatuples.Triplet;
-
-import javax.swing.*;
 
 public class MainController implements Initializable {
 
@@ -75,6 +70,7 @@ public class MainController implements Initializable {
     }
 
     GPACalculator calculator = new GPACalculator(0, 0);
+    FinalGradeCalculator fgc = new FinalGradeCalculator();
 
     @FXML
     TableView GradeScaleTableView;
@@ -352,13 +348,12 @@ public class MainController implements Initializable {
         });
         CourseTableView.setItems(courseList);
 
-        FinalGradeChoiceBox.getItems().add("Simple Calculator");
+        FinalGradeChoiceBox.getItems().add("What grade do I need on my final?");
         FinalGradeChoiceBox.getItems().add("I took the final. What is my overall grade?");
         FinalGradeChoiceBox.getItems().add("My final counts as a test. What do I need to get?");
-        FinalGradeChoiceBox.getItems().add("There are 2+ parts in my final. What do I have to get on them?");
-        FinalGradeChoiceBox.getItems().add("My class has a point system. How much is the final worth?");
-        FinalGradeChoiceBox.getItems().add("My lowest test grade is dropped. What do I need to get?");
-        FinalGradeChoiceBox.setValue("Simple Calculator");
+        FinalGradeChoiceBox.getItems().add("My class uses a point system. How much is the final worth?");
+        //FinalGradeChoiceBox.getItems().add("My lowest test grade is dropped. What do I need to get?");
+        FinalGradeChoiceBox.setValue("What grade do I need on my final?");
 
         FinalGradeText1.textProperty().addListener(new ChangeListener<String>() {
             @Override
@@ -441,7 +436,7 @@ public class MainController implements Initializable {
 
         switch(FinalGradeChoiceBox.getSelectionModel().getSelectedIndex()) {
             case 0:
-                FinalGradeChoiceDescription.setText("The Simple Calculator helps determine what grade you need on your final exam in order to get a certain grade in a class.");
+                FinalGradeChoiceDescription.setText("A simple calculation to determine what grade you need on your final exam in order to get a certain grade in a class.");
 
                 FinalGradeText1.setVisible(true);
                 FinalGradeText2.setVisible(true);
@@ -480,6 +475,8 @@ public class MainController implements Initializable {
 
                 FinalGrade07.setText("");
                 FinalGrade27.setText("");
+
+                FinalGradeCalculateButton.setText("Calculate what I need on the final.");
                 break;
             case 1:
                 FinalGradeChoiceDescription.setText("Since you have already taken your final exam, you can now calculate your overall grade.");
@@ -521,6 +518,8 @@ public class MainController implements Initializable {
 
                 FinalGrade07.setText("");
                 FinalGrade27.setText("");
+
+                FinalGradeCalculateButton.setText("Calculate my overall grade.");
                 break;
             case 2:
                 FinalGradeChoiceDescription.setText("If your final is in the \"tests\" category, then your overall grade will be affected by your current test average and how many tests you have taken so far.");
@@ -565,51 +564,10 @@ public class MainController implements Initializable {
 
                 FinalGrade07.setText("");
                 FinalGrade27.setText("");
+
+                FinalGradeCalculateButton.setText("Calculate what I need on the final.");
                 break;
             case 3:
-                FinalGradeChoiceDescription.setText("If your final has multiple parts and you've finished some of them, then you can calculate what you need on the remaining parts. Your current grade should not include any part of your final.");
-
-                FinalGradeText1.setVisible(true);
-                FinalGradeText2.setVisible(true);
-                FinalGradeText3.setVisible(true);
-                FinalGradeText4.setVisible(true);
-                FinalGradeText5.setVisible(true);
-                FinalGradeText6.setVisible(false);
-                FinalGradeText7.setVisible(false);
-                FinalGradeText8.setVisible(false);
-
-                FinalGradeCalculateButton.setLayoutY(FinalGradeChoiceDescription.getLayoutY() + 240);
-
-                FinalGrade00.setText("Your current grade is ");
-                FinalGradeText1.setText("");
-                FinalGrade20.setText(" %.");
-
-                FinalGrade01.setText("You want (at least) a ");
-                FinalGradeText2.setText("");
-                FinalGrade21.setText(" % in the class.");
-
-                FinalGrade02.setText("Your final is worth ");
-                FinalGradeText3.setText("");
-                FinalGrade22.setText(" % of your grade.");
-
-                FinalGrade03.setText("You have ");
-                FinalGradeText4.setText("");
-                FinalGrade23.setText(" parts to your final.");
-
-                FinalGrade04.setText("You have taken ");
-                FinalGradeText5.setText("");
-                FinalGrade24.setText(" part(s) already.");
-
-                FinalGrade05.setText("");
-                FinalGrade25.setText("");
-
-                FinalGrade06.setText("");
-                FinalGrade26.setText("");
-
-                FinalGrade07.setText("");
-                FinalGrade27.setText("");
-                break;
-            case 4:
                 FinalGradeChoiceDescription.setText("You can calculate how much your final is worth by dividing the number of points in your final by the total number of points.");
 
                 FinalGradeText1.setVisible(true);
@@ -648,8 +606,10 @@ public class MainController implements Initializable {
 
                 FinalGrade07.setText("");
                 FinalGrade27.setText("");
+
+                FinalGradeCalculateButton.setText("Calculate how much my final is worth.");
                 break;
-            case 5:
+            case 4:
                 FinalGradeChoiceDescription.setText("Your overall grade depends on how low your lowest test grades are. If your final replaces your lowest test grade, then tell the calculator that your lowest 1 test is dropped and your final also counts as 1 test.");
 
                 FinalGradeText1.setVisible(true);
@@ -755,6 +715,57 @@ public class MainController implements Initializable {
     @FXML
     public void calculateFinalGradeFields(ActionEvent event) {
         event.consume();
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setGraphic(null);
+        alert.setTitle(FinalGradeChoiceBox.getSelectionModel().getSelectedItem().toString());
+        alert.setHeaderText(null);
+        alert.setContentText("I have a great message for you!");
+
+        switch(FinalGradeChoiceBox.getSelectionModel().getSelectedIndex()) {
+            case 0:
+                if(!FinalGradeText1.getText().isEmpty() &&
+                   !FinalGradeText2.getText().isEmpty() &&
+                   !FinalGradeText3.getText().isEmpty()) {
+                    alert.setContentText(String.format("You need to get at least %s%% on your final.", fgc.simpleFinalGrade(Double.parseDouble(FinalGradeText1.getText()), Double.parseDouble(FinalGradeText2.getText()), Double.parseDouble(FinalGradeText3.getText()))));
+                    alert.showAndWait();
+                } else {
+                    StatusMessage.setText("Error: Make sure that you have not left any fields empty.");
+                }
+                break;
+            case 1:
+                if(!FinalGradeText1.getText().isEmpty() &&
+                   !FinalGradeText2.getText().isEmpty() &&
+                   !FinalGradeText3.getText().isEmpty()) {
+                    alert.setContentText(String.format("Your final grade is %s%%.", fgc.overallGrade(Double.parseDouble(FinalGradeText1.getText()), Double.parseDouble(FinalGradeText2.getText()), Double.parseDouble(FinalGradeText3.getText()))));
+                    alert.showAndWait();
+                } else {
+                    StatusMessage.setText("Error: Make sure that you have not left any fields empty.");
+                }
+                break;
+            case 2:
+                if(!FinalGradeText1.getText().isEmpty() &&
+                   !FinalGradeText2.getText().isEmpty() &&
+                   !FinalGradeText3.getText().isEmpty() &&
+                   !FinalGradeText4.getText().isEmpty() &&
+                   !FinalGradeText5.getText().isEmpty() &&
+                   !FinalGradeText6.getText().isEmpty()) {
+                    alert.setContentText(String.format("You need to get at least %s%% on your final.", fgc.finalCountsAsTest(Double.parseDouble(FinalGradeText1.getText()), Double.parseDouble(FinalGradeText2.getText()), Double.parseDouble(FinalGradeText3.getText()), Integer.parseInt(FinalGradeText4.getText()), Double.parseDouble(FinalGradeText5.getText()), Integer.parseInt(FinalGradeText6.getText()))));
+                    alert.showAndWait();
+                } else {
+                    StatusMessage.setText("Error: Make sure that you have not left any fields empty.");
+                }
+                break;
+            case 3:
+                if(!FinalGradeText1.getText().isEmpty() && !FinalGradeText2.getText().isEmpty()) {
+                    alert.setContentText(String.format("Your final is worth %s%% of your grade.", fgc.finalExamWeight(Double.parseDouble(FinalGradeText1.getText()), Double.parseDouble(FinalGradeText2.getText()))));
+                    alert.showAndWait();
+                } else {
+                    StatusMessage.setText("Error: Make sure that you have not left any fields empty.");
+                }
+                break;
+        }
+
 
     }
 

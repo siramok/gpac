@@ -264,7 +264,7 @@
                               <TextField fx:id="FinalGradeText8" GridPane.columnIndex="1" GridPane.rowIndex="7" />
                            </children>
                         </GridPane>
-                        <Button fx:id="FinalGradeCalculateButton" layoutX="292.0" layoutY="417.0" mnemonicParsing="false" onAction="#calculateFinalGradeFields" prefHeight="39.0" prefWidth="325.0" text="Calculate">
+                        <Button fx:id="FinalGradeCalculateButton" layoutX="292.0" layoutY="417.0" mnemonicParsing="false" onAction="#calculateFinalGradeFields" prefHeight="39.0" prefWidth="325.0" text="Calculate what I need on the final.">
                            <font>
                               <Font size="18.0" />
                            </font>

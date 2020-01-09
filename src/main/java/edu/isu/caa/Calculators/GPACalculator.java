@@ -2,7 +2,6 @@ package edu.isu.caa.Calculators;
 
 import org.javatuples.Pair;
 import org.javatuples.Triplet;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
