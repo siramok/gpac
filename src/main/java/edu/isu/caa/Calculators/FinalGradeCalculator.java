@@ -4,7 +4,8 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 /**
- * Static utility functions for the various final grade calculations.
+ * A set of functions for performing final grade calculations. The functions are based on the math formulas from
+ * RogerHub's formula sheet found at https://rogerhub.com/~r/final/formula.pdf
  *
  * @author Andres Sewell
  */
