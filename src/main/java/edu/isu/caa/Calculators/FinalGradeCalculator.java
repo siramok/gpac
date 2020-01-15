@@ -10,12 +10,10 @@ import java.math.RoundingMode;
  * @author Andres Sewell
  */
 public class FinalGradeCalculator {
-    // Method Citation: https://stackoverflow.com/questions/2808535/round-a-double-to-2-decimal-places
-    private static double round(double value, int places) {
-        if (places < 0) throw new IllegalArgumentException();
-        BigDecimal bd = BigDecimal.valueOf(value);
-        bd = bd.setScale(places, RoundingMode.HALF_UP);
-        return bd.doubleValue();
+    private static double roundDouble(double value, int digits) {
+        BigDecimal toRound = BigDecimal.valueOf(value);
+        toRound = toRound.setScale(digits, RoundingMode.HALF_UP);
+        return toRound.doubleValue();
     }
 
     public static double simpleFinalGrade(double currentGrade, double desiredGrade, double finalWeight) {
@@ -23,7 +21,7 @@ public class FinalGradeCalculator {
         desiredGrade /= 100;
         finalWeight /= 100;
         if(finalWeight > 0) {
-            return round(((desiredGrade - currentGrade + currentGrade * finalWeight) / finalWeight) * 100, 2);
+            return roundDouble(((desiredGrade - currentGrade + currentGrade * finalWeight) / finalWeight) * 100, 2);
         } else {
             return 0;
         }
@@ -33,7 +31,7 @@ public class FinalGradeCalculator {
         overallGrade /= 100;
         finalScore /= 100;
         finalWeight /= 100;
-        return round((overallGrade - overallGrade * finalWeight + finalScore * finalWeight) * 100, 2);
+        return roundDouble((overallGrade - overallGrade * finalWeight + finalScore * finalWeight) * 100, 2);
     }
 
     public static double finalCountsAsTest(double currentGrade, double desiredGrade, double testWeight, int numTestsTaken, double testAverage, int numTestsPerFinal) {
@@ -42,9 +40,9 @@ public class FinalGradeCalculator {
         testWeight /= 100;
         testAverage /= 100;
         if(testWeight == 1) {
-            return round(((desiredGrade * numTestsTaken + desiredGrade * numTestsPerFinal - testAverage * numTestsTaken) /numTestsPerFinal) * 100, 2);
+            return roundDouble(((desiredGrade * numTestsTaken + desiredGrade * numTestsPerFinal - testAverage * numTestsTaken) /numTestsPerFinal) * 100, 2);
         } else if(testWeight < 1) {
-            return round((((desiredGrade - currentGrade + testWeight * testAverage) * (numTestsTaken + numTestsPerFinal) - testWeight * testAverage * numTestsTaken) / (testWeight * numTestsPerFinal)) * 100, 2);
+            return roundDouble((((desiredGrade - currentGrade + testWeight * testAverage) * (numTestsTaken + numTestsPerFinal) - testWeight * testAverage * numTestsTaken) / (testWeight * numTestsPerFinal)) * 100, 2);
         } else {
             return 0;
         }
@@ -52,7 +50,7 @@ public class FinalGradeCalculator {
 
     public static double finalExamWeight(double numPointsPossible, double numPointsFinal) {
         if(numPointsPossible != 0) {
-            return round((numPointsFinal / numPointsPossible) * 100, 2);
+            return roundDouble((numPointsFinal / numPointsPossible) * 100, 2);
         } else {
             return 0;
         }
