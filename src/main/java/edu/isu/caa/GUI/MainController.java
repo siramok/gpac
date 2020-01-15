@@ -1,7 +1,7 @@
 package edu.isu.caa.GUI;
 
 import edu.isu.caa.Calculators.FinalGradeCalculator;
-import edu.isu.caa.Calculators.GPACalculator;
+import edu.isu.caa.Calculators.GpaCalculator;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -78,7 +78,7 @@ public class MainController implements Initializable {
         public void setOriginal(String original) { this.original.set(original); }
     }
 
-    GPACalculator gpac = new GPACalculator(0, 0);
+    GpaCalculator gpac = new GpaCalculator(0, 0);
     FinalGradeCalculator fgc = new FinalGradeCalculator();
 
     @FXML TableView GradeScaleTableView;
@@ -500,7 +500,7 @@ public class MainController implements Initializable {
         } else if (InfoDesiredGPA.getText().isEmpty()) {
             StatusMessage.setText(" Problem: The Desired field cannot be empty");
         } else {
-            gpac.setCurrentGPA(Double.parseDouble(InfoCurrentGPA.getText()));
+            gpac.setCurrentGpa(Double.parseDouble(InfoCurrentGPA.getText()));
             gpac.setCurrentCredits(Integer.parseInt(InfoCurrentCredits.getText()));
 
             if (ExtraBox1.getText() != null && !ExtraBox1.getText().isEmpty()) {
@@ -536,8 +536,8 @@ public class MainController implements Initializable {
             } else if (!retakeGradeList.isEmpty() && numRetakeCredits > Integer.parseInt(InfoCurrentCredits.getText())){
                 StatusMessage.setText(" Problem: The amount of retake credits cannot be more than current credits.");
             } else {
-                ResultsSemesterGPA.setText(String.format("%s", gpac.semesterGPA(newGradeList, retakeGradeList)));
-                ResultsCumulativeGPA.setText(String.format("%s", gpac.cumulativeGPA(newGradeList, retakeGradeList)));
+                ResultsSemesterGPA.setText(String.format("%s", gpac.semesterGpa(newGradeList, retakeGradeList)));
+                ResultsCumulativeGPA.setText(String.format("%s", gpac.cumulativeGpa(newGradeList, retakeGradeList)));
                 StatusMessage.setText(" Success: GPA Calculated successfully.");
             }
         }

@@ -8,8 +8,8 @@ import org.javatuples.Triplet;
 import org.junit.*;
 
 
-public class GPACalculatorTest {
-    private GPACalculator fixture;
+public class GpaCalculatorTest {
+    private GpaCalculator fixture;
     private List<Pair<String, Integer>> newGrades;
     private List<Triplet<String, String, Integer>> retakeGrades;
 
@@ -23,7 +23,7 @@ public class GPACalculatorTest {
 
     @Before
     public void setUp() {
-        fixture = new GPACalculator(0, 0);
+        fixture = new GpaCalculator(0, 0);
         newGrades = new ArrayList<>();
         retakeGrades = new ArrayList<>();
     }
@@ -39,19 +39,19 @@ public class GPACalculatorTest {
         newGrades.add(new Pair("A", 3));
         newGrades.add(new Pair("A", 3));
         newGrades.add(new Pair("A", 3));
-        Assert.assertEquals(4.0, fixture.cumulativeGPA(newGrades, retakeGrades), 0.0001);
+        Assert.assertEquals(4.0, fixture.cumulativeGpa(newGrades, retakeGrades), 0.0001);
     }
 
     @Test
     public void testCalculate_2() {
         // Ensure that GPA is calculated correctly and rounded to 2 decimal places.
-        fixture.setCurrentGPA(2.8);
+        fixture.setCurrentGpa(2.8);
         fixture.setCurrentCredits(17);
         newGrades.add(new Pair("A", 3));
         newGrades.add(new Pair("A", 3));
         newGrades.add(new Pair("A", 3));
         newGrades.add(new Pair("A", 3));
-        Assert.assertEquals(3.29, fixture.cumulativeGPA(newGrades, retakeGrades), 0.0001);
+        Assert.assertEquals(3.29, fixture.cumulativeGpa(newGrades, retakeGrades), 0.0001);
     }
 
     @Test

@@ -11,9 +11,9 @@ import org.javatuples.Triplet;
  *
  * @author Andres Sewell
  */
-public class GPACalculator {
+public class GpaCalculator {
 
-    private double currentGPA;
+    private double currentGpa;
     private int currentCredits;
     private Map<String, Double> scale;
 
@@ -21,11 +21,11 @@ public class GPACalculator {
      * Generates a mapping between letter grades and their GPA values upon construction. Also requires a current GPA
      * and number of current credits, since these values are utilized in each function anyways.
      *
-     * @param currentGPA A double representing a student's current GPA before calculation.
+     * @param currentGpa A double representing a student's current GPA before calculation.
      * @param currentCredits An int representing a student's current number of credits before calculation.
      */
-    public GPACalculator(double currentGPA, int currentCredits) {
-        this.currentGPA = currentGPA;
+    public GpaCalculator(double currentGpa, int currentCredits) {
+        this.currentGpa = currentGpa;
         this.currentCredits = currentCredits;
         scale = new HashMap<>();
         scale.put("A+", 4.0);
@@ -43,7 +43,7 @@ public class GPACalculator {
         scale.put("X", 4.0);
     }
 
-    public void setCurrentGPA(double gpa) { this.currentGPA = gpa; }
+    public void setCurrentGpa(double gpa) { this.currentGpa = gpa; }
     public void setCurrentCredits(int credits) { this.currentCredits = credits; }
 
     /**
@@ -53,22 +53,22 @@ public class GPACalculator {
      * @param retakeGradeList An array of triplets of original letter grades, new letter grades, and credits.
      * @return A GPA rounded to two decimal places.
      */
-    public double semesterGPA(List<Pair<String, Integer>> newGradeList, List<Triplet<String, String, Integer>> retakeGradeList) {
-        double newGPA = 0;
+    public double semesterGpa(List<Pair<String, Integer>> newGradeList, List<Triplet<String, String, Integer>> retakeGradeList) {
+        double newGpa = 0;
         int newCredits = 0;
         for(Pair<String, Integer> grade : newGradeList) {
-            newGPA += scale.get(grade.getValue0()) * grade.getValue1();
+            newGpa += scale.get(grade.getValue0()) * grade.getValue1();
             newCredits += grade.getValue1();
         }
 
         for(Triplet<String, String, Integer> grade : retakeGradeList) {
-            newGPA += scale.get(grade.getValue1()) * grade.getValue2();
+            newGpa += scale.get(grade.getValue1()) * grade.getValue2();
             newCredits += grade.getValue2();
         }
 
         if(newCredits > 0) {
-            newGPA /= newCredits;
-            return Math.floor(((newGPA * newCredits) / (newCredits)) * 100) / 100;
+            newGpa /= newCredits;
+            return Math.floor(((newGpa * newCredits) / (newCredits)) * 100) / 100;
         } else {
             return 0;
         }
@@ -81,28 +81,28 @@ public class GPACalculator {
      * @param retakeGradeList An array of triplets of original letter grades, new letter grades, and credits.
      * @return A GPA rounded to two decimal places.
      */
-    public double cumulativeGPA(List<Pair<String, Integer>> newGradeList, List<Triplet<String, String, Integer>> retakeGradeList) {
-        double newGPA = 0;
-        double retakeExpectedGPA = 0;
-        double retakeOriginalGPA = 0;
+    public double cumulativeGpa(List<Pair<String, Integer>> newGradeList, List<Triplet<String, String, Integer>> retakeGradeList) {
+        double newGpa = 0;
+        double retakeExpectedGpa = 0;
+        double retakeOriginalGpa = 0;
         int newCredits = 0;
         int retakeCredits = 0;
 
         for(Pair<String, Integer> newGrade : newGradeList) {
-            newGPA += scale.get(newGrade.getValue0()) * newGrade.getValue1();
+            newGpa += scale.get(newGrade.getValue0()) * newGrade.getValue1();
             newCredits += newGrade.getValue1();
         }
 
         for(Triplet<String, String, Integer> retakeGrade : retakeGradeList) {
-            retakeOriginalGPA += scale.get(retakeGrade.getValue0()) * retakeGrade.getValue2();
-            retakeExpectedGPA += scale.get(retakeGrade.getValue1()) * retakeGrade.getValue2();
+            retakeOriginalGpa += scale.get(retakeGrade.getValue0()) * retakeGrade.getValue2();
+            retakeExpectedGpa += scale.get(retakeGrade.getValue1()) * retakeGrade.getValue2();
             retakeCredits += retakeGrade.getValue2();
         }
 
         if((newCredits + retakeCredits) > 0) {
-            return Math.floor(((currentGPA * currentCredits + newGPA + retakeExpectedGPA - retakeOriginalGPA ) / (currentCredits + newCredits)) * 100) / 100;
+            return Math.floor(((currentGpa * currentCredits + newGpa + retakeExpectedGpa - retakeOriginalGpa ) / (currentCredits + newCredits)) * 100) / 100;
         } else {
-            return currentGPA;
+            return currentGpa;
         }
     }
 
@@ -110,13 +110,13 @@ public class GPACalculator {
      * A utility function for determining the semester GPA a student needs in order to raise their current GPA to
      * their desired GPA.
      *
-     * @param desiredGPA A double representing a student's desired GPA.
+     * @param desiredGpa A double representing a student's desired GPA.
      * @param newCredits An int representing the amount of new credits that a student is scheduled to take.
      * @return The GPA the student would have to get this semester to raise their current GPA to their desired GPA.
      */
-    public double gpaNeededToGet(double desiredGPA, int newCredits) {
+    public double gpaNeededToGet(double desiredGpa, int newCredits) {
         if(newCredits > 0) {
-            return (double) Math.round((((currentCredits * desiredGPA) + (newCredits * desiredGPA) - (currentCredits * currentGPA)) / newCredits) * 100) / 100;
+            return (double) Math.round((((currentCredits * desiredGpa) + (newCredits * desiredGpa) - (currentCredits * currentGpa)) / newCredits) * 100) / 100;
         } else {
             return 0;
         }
@@ -126,15 +126,15 @@ public class GPACalculator {
      * A utility function for determining the number of credits a student needs to take in order to raise their
      * current GPA to their desired GPA, assuming a given GPA.
      *
-     * @param desiredGPA A double representing a student's desired GPA.
-     * @param newGPA A double representing the assumed GPA for the semester.
+     * @param desiredGpa A double representing a student's desired GPA.
+     * @param newGpa A double representing the assumed GPA for the semester.
      * @return The number of credits a student needs to take in order to raise their current GPA to their desired GPA.
      */
-    public int creditsNeededToGet(double desiredGPA, double newGPA) {
-        if(desiredGPA == 0 || newGPA == 0) {
+    public int creditsNeededToGet(double desiredGpa, double newGpa) {
+        if(desiredGpa == 0 || newGpa == 0) {
             return 0;
         } else {
-            return (int) Math.ceil((desiredGPA * currentCredits - currentGPA * currentCredits) / (newGPA - desiredGPA));
+            return (int) Math.ceil((desiredGpa * currentCredits - currentGpa * currentCredits) / (newGpa - desiredGpa));
         }
     }
 }
